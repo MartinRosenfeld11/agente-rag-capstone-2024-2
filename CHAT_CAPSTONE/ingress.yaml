@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: health-assistant-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false" # Para desarrollo; en producción habilitar SSL
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: a02e0d0c2dbb0472ab0c68ff9e62c7e2-120707356.us-east-1.elb.amazonaws.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: health-assistant-service
+                port:
+                  number: 80
+
